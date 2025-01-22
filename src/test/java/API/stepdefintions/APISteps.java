@@ -18,7 +18,7 @@ public class APISteps {
 
     JsonParsing jsonParsing = new JsonParsing();
 
-    @Given("John is added to the system")
+    @Given("User is added to the system")
     public void newPersonIsAdded() {
         Person person = new Person();
         Serenity.setSessionVariable("person").to(person);
@@ -32,7 +32,7 @@ public class APISteps {
         Serenity.setSessionVariable("personId").to(personId);
     }
 
-    @Then("John's data is retrieved")
+    @Then("User's data is retrieved")
     public void getPersonData() {
         apiBasePage.getPersonById(Serenity.sessionVariableCalled("personId"), 200);  // Sends the GET request and validates the status code
     }
@@ -55,7 +55,7 @@ public class APISteps {
         }
 
 
-    @Then("John's location is changed to {string}")
+    @Then("User's location is changed to {string}")
     public void locationUpdated(String newProperty) {
         Person person = Serenity.sessionVariableCalled("person");
         person.setLocation(newProperty);
@@ -63,7 +63,7 @@ public class APISteps {
         apiBasePage.updatePerson(gson.toJson(person), Serenity.sessionVariableCalled("personId"), 200);
     }
 
-    @And("John's new location is correct")
+    @And("User's new location is correct")
     public void validateChanges() throws ParseException {
         apiBasePage.getPersonById(Serenity.sessionVariableCalled("personId"), 200);
         Person person = Serenity.sessionVariableCalled("person");
@@ -71,8 +71,8 @@ public class APISteps {
         Assert.assertEquals(person.getLocation(), jsonParsing.extractPropertyFromResponse("location", responseBody));
     }
 
-    @Then("we remove John from the system")
-    public void removeJohn() {
+    @Then("we remove User from the system")
+    public void removeUser() {
         apiBasePage.removePerson(Serenity.sessionVariableCalled("personId"), 200);
     }
 }
